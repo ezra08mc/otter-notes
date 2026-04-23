@@ -16,6 +16,8 @@
   
 **Otter Notes** is a time management solution specifically designed to help students stay organized. With no installation required, this app allows you to manage deadlines with a smart notification system directly through your browser.
 
+<img src="./preview.png" width="100%">
+
 ### 🎯 Project Goals
 1. **Intuitive:** Developing an interface that is easy to understand with zero learning curve.
 2. **Organized:** Helping users manage academic priorities more effectively.
