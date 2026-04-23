@@ -1,0 +1,21 @@
+{
+  "name": "Otter Notes",
+  "short_name": "Otter",
+  "description": "Task management with smart reminders",
+  "start_url": "/otter-notes/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "otter-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "otter-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
