@@ -8,17 +8,22 @@ if ("Notification" in window) {
     Notification.requestPermission();
   }
 }
-
 function sendNotification(title, message) {
   if (Notification.permission === "granted") {
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.showNotification(title, {
-        body: message,
-        icon: "otter-logo.png",
-        badge: "otter-logo.png",
-        vibrate: [200, 100, 200]
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(title, {
+          body: message,
+          icon: "otter-logo.png",
+          badge: "otter-logo.png",
+          vibrate: [200, 100, 200]
+        });
+      }).catch(() => {
+        new Notification(title, { body: message, icon: "otter-logo.png" });
       });
-    });
+    } else {
+      new Notification(title, { body: message, icon: "otter-logo.png" });
+    }
   }
 }
 
