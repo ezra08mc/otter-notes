@@ -4,14 +4,16 @@
   <h1>Otter Notes</h1>
   <h3><b>Intuitive Task Management for Students</b></h3> 
   <p>A lightweight, functional, and seamless web-based task reminder application.</p>
-
+ 
+  [![Website Otter Notes](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://ezra08mc.github.io/otter-notes/)
   [![Status](https://img.shields.io/badge/Status-Beta-orange.svg?style=flat)]()
   [![Platform](https://img.shields.io/badge/Platform-Web-blue.svg?style=flat)]()
   [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat)]()
 </div>
 
 ## 🚀 Overview
-
+[🔗 Visit Website](https://ezra08mc.github.io/otter-notes/) 
+  
 **Otter Notes** is a time management solution specifically designed to help students stay organized. With no installation required, this app allows you to manage deadlines with a smart notification system directly through your browser.
 
 ### 🎯 Project Goals
