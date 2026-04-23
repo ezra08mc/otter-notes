@@ -2,7 +2,7 @@
   <img src="https://github.com/ezra08mc/otter-notes/blob/main/otter-logo.png?raw=true" alt="Otter Notes Logo" width="100">
 
   <h1>Otter Notes</h1>
-  <h3><b>Intuitive Task Management for Students</b></h3>
+  <h3><b>Intuitive Task Management for Students</b></h3> 
   <p>A lightweight, functional, and seamless web-based task reminder application.</p>
 
   [![Status](https://img.shields.io/badge/Status-Beta-orange.svg?style=flat)]()
