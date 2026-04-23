@@ -6,11 +6,24 @@
         <title>Otter Notes - Pengingat Tugas</title>
         <link rel="icon" type="image/png" href="otter-logo.png" />
         <link rel="stylesheet" href="style.css" />
+        <link rel="manifest" href="manifest.json" />
+        <meta name="theme-color" content="#3b82f6" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <link rel="apple-touch-icon" href="otter-logo.png" />
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js')
+                        .then(reg => console.log('SW terdaftar'))
+                        .catch(err => console.log('SW gagal', err));
+                });
+            }
+        </script>
     </head> 
     <body>
         <div class="sidebar">
             <img src="otter-logo.png" alt="Logo" class="sidebar-logo" />
-
             <button class="sidebar-btn" id="btnToggleForm" title="Tambah Tugas">
                 <svg
                     width="24"
@@ -26,9 +39,7 @@
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
             </button>
-
             <div class="spacer"></div>
-
             <button class="sidebar-btn" id="btnToggleDark" title="Mode Gelap">
                 <svg
                     width="20"
@@ -68,7 +79,6 @@
                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                 </svg>
             </button>
-
             <button
                 class="sidebar-btn"
                 id="btnToggleSettings"
@@ -91,11 +101,9 @@
                 </svg>
             </button>
         </div>
-
         <div class="main-wrapper">
             <div class="container">
                 <h1>Otter Notes — Pengingat Tugas</h1>
-
                 <div id="formPanel" class="panel hidden">
                     <div class="form-group">
                         <input
@@ -172,7 +180,6 @@
                         Tambah Tugas
                     </button>
                 </div>
-
                 <div id="settingsPanel" class="panel hidden">
                     <h2 style="margin-bottom: 1rem; font-size: 1.25rem">
                         Pengaturan
@@ -210,11 +217,9 @@
                         Made with <span style="color: #ef4444">❤︎</span> by Ezra
                     </div>
                 </div>
-
                 <div id="tasksList" class="tasks-list"></div>
             </div>
         </div>
-
         <script src="script.js"></script>
     </body>
 </html>
