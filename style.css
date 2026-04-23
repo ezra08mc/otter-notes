@@ -1,0 +1,354 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+    line-height: 1.6;
+    transition:
+        background-color 0.3s,
+        color 0.3s;
+}
+
+body.dark {
+    background-color: #111827;
+    color: #f9fafb;
+}
+
+.sidebar {
+    width: 64px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    gap: 0.5rem;
+    transition:
+        background-color 0.3s,
+        border-color 0.3s;
+    z-index: 10;
+}
+
+body.dark .sidebar {
+    background: #1f2937;
+    border-right-color: #374151;
+}
+
+.sidebar-logo {
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.sidebar-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+body.dark .sidebar-btn {
+    background: #374151;
+    color: #d1d5db;
+}
+
+.sidebar-btn:hover {
+    background: #e5e7eb;
+}
+body.dark .sidebar-btn:hover {
+    background: #4b5563;
+}
+.sidebar-btn.active {
+    background: #3b82f6;
+    color: white;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.main-wrapper {
+    margin-left: 64px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 42rem;
+    padding: 2rem 1rem;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.25rem;
+    margin-bottom: 2rem;
+}
+
+.panel {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    animation: popIn 0.2s ease-out;
+}
+
+body.dark .panel {
+    background: #1f2937;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+body.dark .form-group input,
+body.dark .form-group textarea {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+.datetime-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.input-with-icon {
+    position: relative;
+}
+.input-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.input-with-icon input {
+    padding-left: 2.5rem;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.task-card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.25rem;
+    position: relative;
+}
+
+body.dark .task-card {
+    background: #1f2937;
+}
+.task-card.completed {
+    opacity: 0.6;
+}
+
+.task-content {
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+    padding-right: 2.5rem;
+}
+
+.checkbox {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checkbox.checked {
+    background-color: #10b981;
+    border-color: #10b981;
+    position: relative;
+}
+
+.checkbox.checked::after {
+    content: "✓";
+    color: white;
+    position: absolute;
+    left: 4px;
+    top: -2px;
+}
+
+.task-title {
+    font-weight: 600;
+}
+.task-title.completed {
+    text-decoration: line-through;
+}
+.task-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.task-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-delete {
+    position: absolute;
+    top: 1.25rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.btn-delete:hover {
+    color: #ef4444;
+}
+
+.warning {
+    font-weight: 600;
+}
+.warning.red {
+    color: #dc2626;
+}
+.warning.orange {
+    color: #f97316;
+}
+.warning.yellow {
+    color: #ca8a04;
+}
+
+.empty-state {
+    text-align: center;
+    color: #9ca3af;
+    padding: 3rem 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.settings-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.settings-btn-danger {
+    background: #fef2f2;
+    color: #dc2626;
+}
+body.dark .settings-btn-danger {
+    background: rgba(220, 38, 38, 0.2);
+    color: #fca5a5;
+}
+
+.footer-credit {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #9ca3af;
+}
+
+@media (max-width: 640px) {
+    .datetime-group {
+        grid-template-columns: 1fr;
+    }
+    .main-wrapper {
+        margin-left: 0;
+        padding-bottom: 80px;
+    }
+    .sidebar {
+        width: 100%;
+        height: 60px;
+        top: auto;
+        bottom: 0;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid #e5e7eb;
+        padding: 0 1rem;
+    }
+    .sidebar-logo {
+        margin-bottom: 0;
+        margin-right: 0.5rem;
+    }
+}

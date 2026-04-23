@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="id-ID">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Otter Notes - Pengingat Tugas</title>
+        <link rel="icon" type="image/png" href="otter-logo.png" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="sidebar">
+            <img src="otter-logo.png" alt="Logo" class="sidebar-logo" />
+
+            <button class="sidebar-btn" id="btnToggleForm" title="Tambah Tugas">
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+
+            <div class="spacer"></div>
+
+            <button class="sidebar-btn" id="btnToggleDark" title="Mode Gelap">
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    id="iconMoon"
+                >
+                    <path
+                        d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                    ></path>
+                </svg>
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    id="iconSun"
+                    style="display: none"
+                >
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+
+            <button
+                class="sidebar-btn"
+                id="btnToggleSettings"
+                title="Pengaturan"
+            >
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path
+                        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+                    ></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </button>
+        </div>
+
+        <div class="main-wrapper">
+            <div class="container">
+                <h1>Otter Notes — Pengingat Tugas</h1>
+
+                <div id="formPanel" class="panel hidden">
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            id="taskTitle"
+                            placeholder="Judul tugas..."
+                        />
+                    </div>
+                    <div class="form-group">
+                        <textarea
+                            id="taskDescription"
+                            placeholder="Deskripsi (opsional)"
+                        ></textarea>
+                    </div>
+                    <div class="datetime-group">
+                        <div class="form-group input-with-icon">
+                            <svg
+                                class="input-icon"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <rect
+                                    x="3"
+                                    y="4"
+                                    width="18"
+                                    height="18"
+                                    rx="2"
+                                    ry="2"
+                                ></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <input type="date" id="taskDate" />
+                        </div>
+                        <div class="form-group input-with-icon">
+                            <svg
+                                class="input-icon"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <input type="time" id="taskTime" />
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="btnAddTask">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Tambah Tugas
+                    </button>
+                </div>
+
+                <div id="settingsPanel" class="panel hidden">
+                    <h2 style="margin-bottom: 1rem; font-size: 1.25rem">
+                        Pengaturan
+                    </h2>
+                    <div
+                        style="
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.75rem;
+                        "
+                    >
+                        <button
+                            class="settings-btn settings-btn-danger"
+                            id="btnResetAll"
+                        >
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <path
+                                    d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
+                                ></path>
+                            </svg>
+                            Reset Semua Tugas
+                        </button>
+                    </div>
+                    <div class="footer-credit">
+                        Made with <span style="color: #ef4444">❤︎</span> by Ezra
+                    </div>
+                </div>
+
+                <div id="tasksList" class="tasks-list"></div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
