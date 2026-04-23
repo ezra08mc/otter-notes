@@ -8,21 +8,24 @@ if ("Notification" in window) {
     Notification.requestPermission();
   }
 }
+
 function sendNotification(title, message) {
+  const options = {
+    body: message,
+    icon: "otter-logo.png",
+    badge: "otter-logo.png",
+    vibrate: [200, 100, 200]
+  };
+
   if (Notification.permission === "granted") {
     if (navigator.serviceWorker.controller) {
       navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(title, {
-          body: message,
-          icon: "otter-logo.png",
-          badge: "otter-logo.png",
-          vibrate: [200, 100, 200]
-        });
+        registration.showNotification(title, options);
       }).catch(() => {
-        new Notification(title, { body: message, icon: "otter-logo.png" });
+        new Notification(title, options);
       });
     } else {
-      new Notification(title, { body: message, icon: "otter-logo.png" });
+      new Notification(title, options);
     }
   }
 }
@@ -38,9 +41,9 @@ function checkDeadlines() {
     const diffInMs = deadline - now;
     const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
 
-    if (diffInDays <= 3 && diffInDays > 2.9) {
+    if (diffInDays <= 3 && diffInDays > 2.95) {
       sendNotification("Pengingat H-3", `Tugas "${task.title}" deadline 3 hari lagi.`);
-    } else if (diffInDays <= 1 && diffInDays > 0.9) {
+    } else if (diffInDays <= 1 && diffInDays > 0.95) {
       sendNotification("Peringatan H-1", `Tugas "${task.title}" deadline besok!`);
     }
   });
@@ -194,7 +197,7 @@ function formatDate(dateString) {
 function renderTasks() {
   const tasksList = document.getElementById("tasksList");
   if (tasks.length === 0) {
-    tasksList.innerHTML = '<div class="empty-state">Belum ada tugas. Tambahkan tugas pertama Anda!</div>';
+    tasksList.innerHTML = '<div class="empty-state">Belum ada tugas.</div>';
     return;
   }
   tasksList.innerHTML = tasks.map((task) => {
@@ -202,11 +205,8 @@ function renderTasks() {
     const warningHTML = warning && !task.completed ? `<span class="warning ${warning.color}">${warning.text}</span>` : "";
     return `
       <div class="task-card ${task.completed ? "completed" : ""}">
-        <button class="btn-delete" onclick="deleteTask('${task.id}')" title="Hapus Tugas">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-          </svg>
+        <button class="btn-delete" onclick="deleteTask('${task.id}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
         </button>
         <div class="task-content">
           <div class="checkbox ${task.completed ? "checked" : ""}" onclick="toggleComplete('${task.id}')"></div>
@@ -214,19 +214,8 @@ function renderTasks() {
             <div class="task-title ${task.completed ? "completed" : ""}">${task.title}</div>
             ${task.description ? `<div class="task-description">${task.description}</div>` : ""}
             <div class="task-meta">
-              <div class="meta-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-                ${formatDate(task.date)}
-              </div>
-              <div class="meta-item">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                ${task.time}
-              </div>
+              <div class="meta-item">${formatDate(task.date)}</div>
+              <div class="meta-item">${task.time}</div>
               ${warningHTML}
             </div>
           </div>
@@ -240,6 +229,5 @@ document.getElementById("btnToggleSettings").addEventListener("click", toggleSet
 document.getElementById("btnToggleDark").addEventListener("click", toggleDarkMode);
 document.getElementById("btnAddTask").addEventListener("click", addTask);
 document.getElementById("btnResetAll").addEventListener("click", resetAll);
-document.getElementById("taskTitle").addEventListener("keypress", (e) => { if (e.key === "Enter") addTask(); });
 
 loadData();
