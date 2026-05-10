@@ -1412,11 +1412,8 @@ function writeNotifiedKeys(keys) {
 
 function checkAndSendLocalNotifications() {
   if (!notifActive) return;
-  if (!("Notification" in window)) return;
-
-  if (Notification.permission !== "granted") {
+  if (!("Notification" in window) || Notification.permission !== "granted")
     return;
-  }
 
   const timezone = currentProfile?.timezone || getBrowserTimezone();
   const now = new Date();
@@ -1431,27 +1428,50 @@ function checkAndSendLocalNotifications() {
     if (task.completed || task.deleted) continue;
 
     const taskDate = getTaskComparableDate(task);
-    const taskTime = task.time ? String(task.time).slice(0, 5) : null;
+    const taskTime = task.time ? String(task.time).slice(0, 5) : "00:00";
+    if (!taskDate) continue;
 
-    if (!taskDate || !taskTime) continue;
+    const diff = getDaysDifference(taskDate);
+    let triggerNotify = false;
+    let stageLabel = "";
 
-    if (taskDate === nowLocalDate && taskTime === nowLocalTime) {
-      const key = getTaskNotifyKey(task);
+    if (diff === 7) {
+      stageLabel = "H-7";
+      triggerNotify = true;
+    } else if (diff === 3) {
+      stageLabel = "H-3";
+      triggerNotify = true;
+    } else if (diff === 1) {
+      stageLabel = "H-1";
+      triggerNotify = true;
+    } else if (diff === 0 && nowLocalTime === taskTime) {
+      stageLabel = "Sekarang";
+      triggerNotify = true;
+    }
+
+    if (triggerNotify) {
+      const key = `${task.id || task.title}|${taskDate}|${stageLabel}`;
       if (notified.has(key)) continue;
 
-      const title = "Otter Notes Reminder";
+      const title = `Otter Notes: ${stageLabel}`;
+      const message =
+        stageLabel === "Sekarang"
+          ? `Waktunya: ${task.title}`
+          : `${stageLabel} sebelum: ${task.title}`;
+
       const options = {
-        body: `${task.title}${task.description ? ` - ${task.description}` : ""}`,
-        tag: key,
+        body: message,
+        tag: task.id + stageLabel,
         icon: "otter-logo.png",
         badge: "otter-logo.png",
         vibrate: [200, 100, 200],
+        data: { url: window.location.href },
       };
 
       if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.ready.then((reg) => {
-          reg.showNotification(title, options);
-        });
+        navigator.serviceWorker.ready.then((reg) =>
+          reg.showNotification(title, options),
+        );
       } else {
         new Notification(title, options);
       }
