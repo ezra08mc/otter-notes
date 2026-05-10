@@ -140,7 +140,12 @@ async function requestNotificationPermission() {
 }
 
 async function handleNotifToggle() {
-  if ("Notification" in window && Notification.permission === "granted") {
+  if (!("Notification" in window)) {
+    showToast("Browser ini tidak mendukung notifikasi.", "error");
+    return;
+  }
+
+  if (Notification.permission === "granted") {
     const nextValue = !notifActive;
     await setNotificationPreference(nextValue);
 
@@ -150,7 +155,6 @@ async function handleNotifToggle() {
         body: "Notifikasi perangkat berhasil diaktifkan!",
         icon: "otter-logo.png",
       };
-
       if (navigator.serviceWorker.controller) {
         navigator.serviceWorker.ready.then((reg) =>
           reg.showNotification(title, options),
@@ -158,21 +162,27 @@ async function handleNotifToggle() {
       } else {
         new Notification(title, options);
       }
+    } else {
+      showToast("Notifikasi dinonaktifkan.", "info");
     }
     return;
   }
-  const isGranted = await requestNotificationPermission();
 
-  if (!isGranted) {
-    showToast(
-      "Mohon aktifkan izin notifikasi di pengaturan browser Anda.",
-      "error",
-    );
+  if (Notification.permission === "default") {
+    const isGranted = await requestNotificationPermission();
+    if (isGranted) {
+      await setNotificationPreference(true);
+      showToast("Notifikasi berhasil diaktifkan!", "success");
+    }
     return;
   }
 
-  const nextValue = !notifActive;
-  await setNotificationPreference(nextValue);
+  if (Notification.permission === "denied") {
+    showToast(
+      "Mohon aktifkan izin notifikasi secara manual di pengaturan browser Anda.",
+      "error",
+    );
+  }
 }
 
 function getDisplayName(user) {
