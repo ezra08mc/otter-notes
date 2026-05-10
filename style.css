@@ -890,6 +890,14 @@ body.dark .settings-action-btn.danger {
     background: rgba(220, 38, 38, 0.1);
     color: #fca5a5;
 }
+body.dark #btnInstallApp {
+    background-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+body.dark #btnInstallApp:hover {
+    background-color: #f8fafc !important;
+}
 
 .telegram { color: #0284c7; }
 .whatsapp { color: #16a34a; }
