@@ -768,7 +768,7 @@ function setupEventListeners() {
       switchView(
         "view" +
           e.currentTarget.getAttribute("data-view").charAt(0).toUpperCase() +
-          e.currentTarget.getAttribute("data-view").slice(1),
+          e.currentTarget.getAttribute("data-view").slice(1).toLowerCase(),
       );
     });
   });
@@ -792,7 +792,9 @@ function setupEventListeners() {
           .classList.add("active");
       } else {
         switchView(
-          "view" + viewName.charAt(0).toUpperCase() + viewName.slice(1),
+          "view" +
+            viewName.charAt(0).toUpperCase() +
+            viewName.slice(1).toLowerCase(),
         );
       }
     });
@@ -813,21 +815,35 @@ function setupEventListeners() {
 }
 
 function switchView(viewId) {
-  document
-    .querySelectorAll(".view-section")
-    .forEach((v) => v.classList.add("hidden", "active"));
-  document
-    .querySelectorAll(".view-section")
-    .forEach((v) => v.classList.remove("active"));
-  document.getElementById(viewId).classList.remove("hidden");
-  document.getElementById(viewId).classList.add("active");
+  // Pastikan ID menggunakan format camelCase yang benar (misal: viewCalendar)
+  const normalizedId =
+    "view" +
+    viewId.replace("view", "").charAt(0).toUpperCase() +
+    viewId.replace("view", "").slice(1).toLowerCase();
+  const targetElement =
+    document.getElementById(normalizedId) || document.getElementById(viewId);
 
-  if (viewId !== "viewTasks") {
+  if (!targetElement) {
+    console.error("View not found:", viewId);
+    return;
+  }
+
+  document.querySelectorAll(".view-section").forEach((v) => {
+    v.classList.add("hidden");
+    v.classList.remove("active");
+  });
+
+  targetElement.classList.remove("hidden");
+  targetElement.classList.add("active");
+
+  if (normalizedId !== "viewTasks") {
     if (btnDeskAddTask) btnDeskAddTask.style.display = "none";
     if (fabMobile) fabMobile.style.display = "none";
   }
-  if (viewId === "viewCalendar") renderCalendarTasks();
-  if (viewId === "viewSettings") {
+
+  if (normalizedId === "viewCalendar") renderCalendarTasks();
+
+  if (normalizedId === "viewSettings") {
     const filterContainer = document.getElementById("mobileFilterContainer");
     if (filterContainer) filterContainer.style.display = "none";
   }
@@ -974,13 +990,13 @@ async function saveTask() {
       await loadTasksFromCloud();
     }
 
+    renderTasks();
+    generateCalendar();
     closeModal("taskModal");
   } catch (err) {
     console.error("Gagal menyimpan:", err);
     showToast("Gagal menyimpan tugas: " + err.message);
   } finally {
-    renderTasks();
-    generateCalendar();
     btnSave.innerText = "Simpan";
     btnSave.disabled = false;
   }
