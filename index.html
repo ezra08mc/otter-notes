@@ -1,30 +1,669 @@
 <!doctype html>
+
 <html lang="id-ID">
     <head>
         <meta charset="UTF-8" />
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Otter Notes - Pengingat Tugas</title>
+
+        <title>Otter Notes</title>
+
         <link rel="icon" type="image/png" href="otter-logo.png" />
+
         <link rel="stylesheet" href="style.css" />
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
         <link rel="manifest" href="manifest.json" />
-        <meta name="theme-color" content="#3b82f6" />
+        <meta name="theme-color" content="#56433B" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
         <link rel="apple-touch-icon" href="otter-logo.png" />
-        <script>
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('sw.js')
-                        .then(reg => console.log('SW terdaftar'))
-                        .catch(err => console.log('SW gagal', err));
-                });
-            }
-        </script>
-    </head> 
+    </head>
+
     <body>
-        <div class="sidebar">
-            <img src="otter-logo.png" alt="Logo" class="sidebar-logo" />
-            <button class="sidebar-btn" id="btnToggleForm" title="Tambah Tugas">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button
+                    id="btnHamburger"
+                    class="icon-btn desktop-only"
+                    title="Menu"
+                    aria-label="Buka Menu"
+                >
+                    <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+
+                <div class="brand-wrapper">
+                    <img src="otter-logo.png" alt="Logo" class="topbar-logo" />
+
+                    <span class="brand-name">Otter Notes</span>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <button
+                    class="icon-btn notif-btn"
+                    id="btnToggleNotif"
+                    title="Aktifkan Notifikasi"
+                    aria-label="Aktifkan Notifikasi"
+                >
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path
+                            d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
+                        ></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </button>
+
+                <div
+                    class="user-profile desktop-only"
+                    id="btnUserAccountDesk"
+                    onclick="openModal('authModal')"
+                >
+                    <div class="avatar">
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                            ></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+
+                    <span class="user-name displayUserName">Tamu</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="app-container">
+            <aside class="sidebar desktop-only" id="sidebar">
+                <div class="sidebar-menu">
+                    <div class="menu-label">Tugas</div>
+
+                    <button
+                        class="nav-item active desk-filter"
+                        data-filter="all"
+                    >
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        Semua Tugas
+                    </button>
+
+                    <button class="nav-item desk-filter" data-filter="today">
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <rect
+                                x="3"
+                                y="4"
+                                width="18"
+                                height="18"
+                                rx="2"
+                                ry="2"
+                            ></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Hari Ini
+                    </button>
+
+                    <button class="nav-item desk-filter" data-filter="upcoming">
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                            <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                        </svg>
+                        Akan Datang
+                    </button>
+
+                    <button class="nav-item desk-filter" data-filter="overdue">
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        Terlewat
+                    </button>
+
+                    <button
+                        class="nav-item desk-filter"
+                        data-filter="completed"
+                    >
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        Selesai
+                    </button>
+
+                    <div class="menu-label mt-4">Menu</div>
+
+                    <button class="nav-item" data-view="calendar">
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <rect
+                                x="3"
+                                y="4"
+                                width="18"
+                                height="18"
+                                rx="2"
+                                ry="2"
+                            ></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Kalender
+                    </button>
+
+                    <div class="spacer"></div>
+
+                    <button class="nav-item desk-filter" data-filter="trash">
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path
+                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                            ></path>
+                        </svg>
+                        Sampah
+                    </button>
+
+                    <button class="nav-item" data-view="settings">
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                            ></path>
+                        </svg>
+                        Pengaturan
+                    </button>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div id="viewTasks" class="view-section active">
+                    <div class="view-header">
+                        <h2 id="viewTitle">Semua Tugas</h2>
+                    </div>
+
+                    <div
+                        class="mobile-filters mobile-only"
+                        id="mobileFilterContainer"
+                    >
+                        <button class="filter-pill active" data-filter="all">
+                            Semua
+                        </button>
+
+                        <button class="filter-pill" data-filter="today">
+                            Hari Ini
+                        </button>
+
+                        <button class="filter-pill" data-filter="upcoming">
+                            Akan Datang
+                        </button>
+
+                        <button class="filter-pill" data-filter="overdue">
+                            Terlewat
+                        </button>
+
+                        <button class="filter-pill" data-filter="completed">
+                            Selesai
+                        </button>
+                    </div>
+
+                    <button
+                        class="btn-add-desktop desktop-only"
+                        id="btnDeskAddTask"
+                        onclick="openModal('add')"
+                    >
+                        <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+
+                        Tambahkan Tugas
+                    </button>
+
+                    <div id="tasksList" class="tasks-list"></div>
+                </div>
+
+                <div id="viewCalendar" class="view-section hidden">
+                    <div
+                        class="view-header"
+                        style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        "
+                    >
+                        <h2 id="calMonthTitle">Mei 2026</h2>
+                        <button
+                            class="btn-add-desktop"
+                            style="width: auto; margin-bottom: 0"
+                            onclick="openModal('add')"
+                        >
+                            + Buat Tugas
+                        </button>
+                    </div>
+
+                    <div class="calendar-full-wrapper">
+                        <div class="calendar-full-header">
+                            <span>Minggu</span><span>Senin</span
+                            ><span>Selasa</span><span>Rabu</span
+                            ><span>Kamis</span><span>Jumat</span
+                            ><span>Sabtu</span>
+                        </div>
+                        <div
+                            class="calendar-full-grid"
+                            id="calendarFullGrid"
+                        ></div>
+                    </div>
+                </div>
+
+                <div id="viewSettings" class="view-section hidden">
+                    <div class="view-header"><h2>Pengaturan</h2></div>
+
+                    <div
+                        class="mobile-only profile-simple"
+                        onclick="openModal('authModal')"
+                    >
+                        <div class="avatar">
+                            <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                ></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <div
+                                class="user-name displayUserName"
+                                style="font-weight: 600; font-size: 1.05rem"
+                            >
+                                Tamu
+                            </div>
+
+                            <div
+                                style="font-size: 0.8rem; color: #64748b"
+                                id="authHint"
+                            >
+                                Ketuk untuk masuk / daftar akun
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Integrasi & Sinkronisasi</h3>
+                        <div class="modal-overlay hidden" id="telegramModal">
+                            <div class="modal-card">
+                                <h3>Hubungkan Telegram</h3>
+                                <p
+                                    style="
+                                        font-size: 0.85rem;
+                                        color: #64748b;
+                                        margin-bottom: 1rem;
+                                    "
+                                >
+                                    Dapatkan Chat ID Anda dengan mengirim pesan
+                                    apa saja ke
+                                    <a
+                                        href="https://t.me/otternotes_bot"
+                                        target="_blank"
+                                        >@otternotes_bot</a
+                                    >, lalu masukkan angkanya di bawah ini.
+                                </p>
+                                <div class="form-group">
+                                    <input
+                                        type="text"
+                                        id="inputTelegramId"
+                                        placeholder="Contoh: 123456789"
+                                        class="clean-input"
+                                    />
+                                </div>
+                                <div class="modal-actions">
+                                    <button
+                                        class="btn-cancel"
+                                        onclick="closeModal('telegramModal')"
+                                    >
+                                        Batal
+                                    </button>
+                                    <button
+                                        class="btn-save"
+                                        id="btnSaveTelegram"
+                                    >
+                                        Simpan ID
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-list mt-2">
+                            <button
+                                class="settings-action-btn telegram"
+                                id="btnConnectTelegram"
+                            >
+                                <span
+                                    style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.5rem;
+                                    "
+                                    ><svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <line
+                                            x1="22"
+                                            y1="2"
+                                            x2="11"
+                                            y2="13"
+                                        ></line>
+                                        <polygon
+                                            points="22 2 15 22 11 13 2 9 22 2"
+                                        ></polygon>
+                                    </svg>
+                                    <span id="telegramLabel"
+                                        >Hubungkan Telegram</span
+                                    ></span
+                                >
+                            </button>
+
+                            <button
+                                class="settings-action-btn cloud"
+                                id="btnCloudSync"
+                            >
+                                <span
+                                    style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.5rem;
+                                    "
+                                    ><svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"
+                                        ></path>
+                                    </svg>
+                                    <span id="cloudLabel"
+                                        >Sinkronisasi Cloud</span
+                                    ></span
+                                >
+                            </button>
+                        </div>
+
+                        <div
+                            style="
+                                margin-top: 1rem;
+                                padding-top: 1rem;
+                                border-top: 1px dashed #cbd5e1;
+                            "
+                        >
+                            <button
+                                class="btn-save"
+                                style="width: 100%"
+                                id="btnUpgradePremium"
+                            >
+                                Beralih ke Premium
+                            </button>
+                            <div
+                                class="settings-card mt-4"
+                                id="installContainer"
+                                style="display: none"
+                            >
+                                <h3>Aplikasi Otter Notes</h3>
+                                <p
+                                    style="
+                                        font-size: 0.8rem;
+                                        color: #64748b;
+                                        margin-bottom: 1rem;
+                                    "
+                                >
+                                    Pasang aplikasi di layar utama untuk akses
+                                    lebih cepat dan notifikasi yang lebih
+                                    stabil.
+                                </p>
+                                <button
+                                    class="btn-save"
+                                    style="width: 100%; background: #0f172a"
+                                    id="btnInstallApp"
+                                >
+                                    <span
+                                        style="
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            gap: 0.5rem;
+                                        "
+                                    >
+                                        <svg
+                                            width="18"
+                                            height="18"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                        >
+                                            <path
+                                                d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                                            ></path>
+                                            <polyline
+                                                points="7 10 12 15 17 10"
+                                            ></polyline>
+                                            <line
+                                                x1="12"
+                                                y1="15"
+                                                x2="12"
+                                                y2="3"
+                                            ></line>
+                                        </svg>
+                                        Install Otter Notes
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card mt-4">
+                        <h3>Sistem & Tampilan</h3>
+
+                        <div class="settings-list mt-2">
+                            <div class="settings-row">
+                                <span>Mode Gelap</span>
+
+                                <label class="toggle-switch">
+                                    <input
+                                        type="checkbox"
+                                        id="toggleDarkModeSwitch"
+                                    />
+
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card mt-4">
+                        <h3>Manajemen Data</h3>
+
+                        <div class="settings-list mt-2">
+                            <button
+                                class="settings-action-btn mobile-only"
+                                onclick="openMobileTrash()"
+                            >
+                                <span
+                                    style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.5rem;
+                                    "
+                                    ><svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <polyline
+                                            points="3 6 5 6 21 6"
+                                        ></polyline>
+                                        <path
+                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                                        ></path>
+                                    </svg>
+                                    Buka Tempat Sampah</span
+                                >
+                            </button>
+
+                            <button
+                                class="settings-action-btn danger"
+                                id="btnResetAll"
+                            >
+                                <span
+                                    style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 0.5rem;
+                                    "
+                                    ><svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path d="M3 6h18"></path>
+                                        <path
+                                            d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+                                        ></path>
+                                        <path
+                                            d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+                                        ></path>
+                                    </svg>
+                                    Reset Semua Tugas</span
+                                >
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <nav class="bottom-nav mobile-only">
+            <button class="b-nav-item active" data-view="tasks">
                 <svg
                     width="24"
                     height="24"
@@ -32,194 +671,291 @@
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
                 >
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
                 </svg>
+
+                <span>Beranda</span>
             </button>
-            <div class="spacer"></div>
-            <button class="sidebar-btn" id="btnToggleDark" title="Mode Gelap">
+
+            <button class="b-nav-item" data-view="calendar">
                 <svg
-                    width="20"
-                    height="20"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    id="iconMoon"
                 >
-                    <path
-                        d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-                    ></path>
+                    <rect
+                        x="3"
+                        y="4"
+                        width="18"
+                        height="18"
+                        rx="2"
+                        ry="2"
+                    ></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
-                <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    id="iconSun"
-                    style="display: none"
-                >
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
+
+                <span>Kalender</span>
             </button>
-            <button
-                class="sidebar-btn"
-                id="btnToggleSettings"
-                title="Pengaturan"
-            >
+
+            <button class="b-nav-item" data-view="settings">
                 <svg
-                    width="20"
-                    height="20"
+                    width="24"
+                    height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
                 >
-                    <path
-                        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-                    ></path>
                     <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                    ></path>
                 </svg>
+
+                <span>Pengaturan</span>
             </button>
-        </div>
-        <div class="main-wrapper">
-            <div class="container">
-                <h1>Otter Notes — Pengingat Tugas</h1>
-                <div id="formPanel" class="panel hidden">
+        </nav>
+
+        <button
+            class="fab-mobile mobile-only"
+            id="fabMobile"
+            onclick="openModal('add')"
+        >
+            <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+
+        <div class="modal-overlay hidden" id="taskModal">
+            <div class="modal-card">
+                <h3 id="modalTitle">Tambah Tugas</h3>
+
+                <div class="form-group">
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        placeholder="Judul tugas..."
+                        class="clean-input large"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <textarea
+                        id="taskDescription"
+                        placeholder="Deskripsi tambahan..."
+                        class="clean-input"
+                    ></textarea>
+                </div>
+
+                <div class="datetime-group">
                     <div class="form-group">
+                        <label>Tanggal</label>
+
+                        <input type="date" id="taskDate" class="clean-input" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Waktu</label>
+
+                        <input type="time" id="taskTime" class="clean-input" />
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button
+                        class="btn-cancel"
+                        onclick="closeModal('taskModal')"
+                    >
+                        Batal
+                    </button>
+
+                    <button class="btn-save" id="btnSaveTask">Simpan</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay hidden" id="authModal">
+            <div class="modal-card auth-card" id="authFormArea">
+                <h3 id="authTitle">Masuk</h3>
+
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem">
+                    <button
+                        class="btn-cancel"
+                        style="flex: 1"
+                        id="btnModeSignIn"
+                    >
+                        Masuk
+                    </button>
+                    <button
+                        class="btn-cancel"
+                        style="flex: 1"
+                        id="btnModeSignUp"
+                    >
+                        Daftar
+                    </button>
+                </div>
+
+                <div id="authInputs">
+                    <div class="form-group hidden" id="authDisplayNameGroup">
                         <input
                             type="text"
-                            id="taskTitle"
-                            placeholder="Judul tugas..."
+                            id="authDisplayName"
+                            placeholder="Display name"
+                            class="clean-input"
                         />
                     </div>
+
                     <div class="form-group">
-                        <textarea
-                            id="taskDescription"
-                            placeholder="Deskripsi (opsional)"
-                        ></textarea>
+                        <input
+                            type="email"
+                            id="authEmail"
+                            placeholder="Email"
+                            class="clean-input"
+                        />
                     </div>
-                    <div class="datetime-group">
-                        <div class="form-group input-with-icon">
-                            <svg
-                                class="input-icon"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <rect
-                                    x="3"
-                                    y="4"
-                                    width="18"
-                                    height="18"
-                                    rx="2"
-                                    ry="2"
-                                ></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                            <input type="date" id="taskDate" />
-                        </div>
-                        <div class="form-group input-with-icon">
-                            <svg
-                                class="input-icon"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            <input type="time" id="taskTime" />
-                        </div>
+
+                    <div class="form-group">
+                        <input
+                            type="password"
+                            id="authPassword"
+                            placeholder="Password"
+                            class="clean-input"
+                        />
                     </div>
-                    <button class="btn-primary" id="btnAddTask">
+                </div>
+
+                <div
+                    class="modal-actions"
+                    style="margin-top: 1.5rem; flex-direction: column"
+                >
+                    <button
+                        class="btn-save"
+                        style="width: 100%"
+                        id="btnSubmitAuth"
+                    >
+                        Masuk
+                    </button>
+
+                    <button
+                        class="btn-cancel"
+                        style="width: 100%; text-align: center"
+                        onclick="closeModal('authModal')"
+                    >
+                        Tutup
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-card auth-card hidden" id="loggedInArea">
+                <h3>Profil Anda</h3>
+
+                <div
+                    class="user-profile large mt-4"
+                    style="justify-content: center; margin-bottom: 1.5rem"
+                >
+                    <div class="avatar" style="width: 50px; height: 50px">
                         <svg
-                            width="20"
-                            height="20"
+                            width="24"
+                            height="24"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
                         >
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <path
+                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                            ></path>
+                            <circle cx="12" cy="7" r="4"></circle>
                         </svg>
-                        Tambah Tugas
+                    </div>
+
+                    <div style="text-align: center">
+                        <h4 id="loggedUserName">Nama</h4>
+                    </div>
+                </div>
+
+                <div class="modal-actions" style="flex-direction: column">
+                    <button
+                        class="btn-save"
+                        style="width: 100%"
+                        onclick="openModal('passwordModal')"
+                    >
+                        Ganti Password
+                    </button>
+
+                    <button
+                        class="btn-cancel"
+                        style="width: 100%; color: #dc2626"
+                        id="btnDeleteAccount"
+                    >
+                        Hapus Akun
+                    </button>
+
+                    <button
+                        class="btn-cancel"
+                        style="width: 100%; color: #dc2626"
+                        id="btnLogout"
+                    >
+                        Keluar Akun
+                    </button>
+
+                    <button
+                        class="btn-cancel"
+                        style="width: 100%; text-align: center"
+                        onclick="closeModal('authModal')"
+                    >
+                        Tutup
                     </button>
                 </div>
-                <div id="settingsPanel" class="panel hidden">
-                    <h2 style="margin-bottom: 1rem; font-size: 1.25rem">
-                        Pengaturan
-                    </h2>
-                    <div
-                        style="
-                            display: flex;
-                            flex-direction: column;
-                            gap: 0.75rem;
-                        "
-                    >
-                        <button
-                            class="settings-btn settings-btn-danger"
-                            id="btnResetAll"
-                        >
-                            <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            >
-                                <polyline points="1 4 1 10 7 10"></polyline>
-                                <path
-                                    d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"
-                                ></path>
-                            </svg>
-                            Reset Semua Tugas
-                        </button>
-                    </div>
-                    <div class="footer-credit">
-                        Made with <span style="color: #ef4444">❤︎</span> by Ezra
-                    </div>
-                </div>
-                <div id="tasksList" class="tasks-list"></div>
             </div>
         </div>
+
+        <div id="passwordModal" class="modal-overlay hidden">
+            <div class="modal-card" style="max-width: 350px">
+                <h3>Ganti Password</h3>
+                <div class="form-group">
+                    <label>Password Baru</label>
+                    <input
+                        type="password"
+                        id="newPasswordInput"
+                        class="clean-input"
+                        placeholder="Minimal 6 karakter"
+                    />
+                </div>
+                <div class="modal-actions">
+                    <button
+                        class="btn-cancel"
+                        onclick="closeModal('passwordModal')"
+                    >
+                        Batal
+                    </button>
+                    <button class="btn-save" id="btnSubmitNewPassword">
+                        Simpan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="toastContainer" class="toast-container"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script src="script.js"></script>
     </body>
 </html>
