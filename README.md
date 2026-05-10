@@ -51,7 +51,3 @@
 ## 🛠️ Development & Tech Stack
 Built with pure Web Technologies (Vanilla HTML, CSS, JavaScript) for maximum speed, backed by **Supabase** (PostgreSQL & Auth), **Cloudflare Workers** (Serverless Automation), and the **Telegram Bot API**.
 
----
-<div align="center">
-  Made with ❤️ by Ezra
-</div>
