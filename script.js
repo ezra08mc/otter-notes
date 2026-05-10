@@ -750,10 +750,6 @@ function setupEventListeners() {
 
   document.querySelectorAll(".desk-filter").forEach((item) => {
     item.addEventListener("click", (e) => {
-      document
-        .querySelectorAll(".nav-item")
-        .forEach((n) => n.classList.remove("active"));
-      e.currentTarget.classList.add("active");
       const filter = e.currentTarget.getAttribute("data-filter");
       switchFilter(filter, e.currentTarget.innerText.trim());
     });
@@ -761,41 +757,18 @@ function setupEventListeners() {
 
   document.querySelectorAll(".nav-item[data-view]").forEach((item) => {
     item.addEventListener("click", (e) => {
-      document
-        .querySelectorAll(".nav-item")
-        .forEach((n) => n.classList.remove("active"));
-      e.currentTarget.classList.add("active");
-      switchView(
-        "view" +
-          e.currentTarget.getAttribute("data-view").charAt(0).toUpperCase() +
-          e.currentTarget.getAttribute("data-view").slice(1).toLowerCase(),
-      );
+      const view = e.currentTarget.getAttribute("data-view");
+      switchView(view);
     });
   });
 
   document.querySelectorAll(".b-nav-item").forEach((item) => {
     item.addEventListener("click", (e) => {
-      document
-        .querySelectorAll(".b-nav-item")
-        .forEach((n) => n.classList.remove("active"));
-      const target = e.currentTarget;
-      target.classList.add("active");
-      const viewName = target.getAttribute("data-view");
-
+      const viewName = e.currentTarget.getAttribute("data-view");
       if (viewName === "tasks") {
         switchFilter("all", "Semua Tugas");
-        document
-          .querySelectorAll(".filter-pill")
-          .forEach((n) => n.classList.remove("active"));
-        document
-          .querySelector('.filter-pill[data-filter="all"]')
-          .classList.add("active");
       } else {
-        switchView(
-          "view" +
-            viewName.charAt(0).toUpperCase() +
-            viewName.slice(1).toLowerCase(),
-        );
+        switchView(viewName);
       }
     });
   });
@@ -815,37 +788,49 @@ function setupEventListeners() {
 }
 
 function switchView(viewId) {
-  // Pastikan ID menggunakan format camelCase yang benar (misal: viewCalendar)
-  const normalizedId =
-    "view" +
-    viewId.replace("view", "").charAt(0).toUpperCase() +
-    viewId.replace("view", "").slice(1).toLowerCase();
-  const targetElement =
-    document.getElementById(normalizedId) || document.getElementById(viewId);
+  const sections = document.querySelectorAll(".view-section");
+  const navItems = document.querySelectorAll(".nav-item, .b-nav-item");
 
-  if (!targetElement) {
-    console.error("View not found:", viewId);
+  let baseId = viewId.toLowerCase().replace("view", "");
+  let normalizedId = "view" + baseId.charAt(0).toUpperCase() + baseId.slice(1);
+
+  if (normalizedId === "viewTasks") normalizedId = "viewTasks";
+  if (normalizedId === "viewCalendar") normalizedId = "viewCalendar";
+  if (normalizedId === "viewSettings") normalizedId = "viewSettings";
+
+  const target = document.getElementById(normalizedId);
+  if (!target) {
+    console.error("View element tidak ditemukan:", normalizedId);
     return;
   }
 
-  document.querySelectorAll(".view-section").forEach((v) => {
-    v.classList.add("hidden");
-    v.classList.remove("active");
+  sections.forEach((s) => {
+    s.classList.add("hidden");
+    s.classList.remove("active");
   });
 
-  targetElement.classList.remove("hidden");
-  targetElement.classList.add("active");
+  target.classList.remove("hidden");
+  target.classList.add("active");
 
+  navItems.forEach((item) => {
+    const itemData = item.getAttribute("data-view");
+    if (
+      itemData &&
+      (itemData.toLowerCase() === baseId ||
+        "view" + itemData.toLowerCase() === normalizedId.toLowerCase())
+    ) {
+      item.classList.add("active");
+    } else {
+      if (!item.classList.contains("filter-pill")) {
+        item.classList.remove("active");
+      }
+    }
+  });
+
+  if (normalizedId === "viewCalendar") renderCalendarTasks();
   if (normalizedId !== "viewTasks") {
     if (btnDeskAddTask) btnDeskAddTask.style.display = "none";
     if (fabMobile) fabMobile.style.display = "none";
-  }
-
-  if (normalizedId === "viewCalendar") renderCalendarTasks();
-
-  if (normalizedId === "viewSettings") {
-    const filterContainer = document.getElementById("mobileFilterContainer");
-    if (filterContainer) filterContainer.style.display = "none";
   }
 }
 
@@ -853,6 +838,11 @@ function switchFilter(filter, titleText) {
   switchView("viewTasks");
   currentFilter = filter;
   if (titleText) document.getElementById("viewTitle").innerText = titleText;
+
+  document.querySelectorAll(".desk-filter, .filter-pill").forEach((el) => {
+    if (el.getAttribute("data-filter") === filter) el.classList.add("active");
+    else el.classList.remove("active");
+  });
 
   const filterContainer = document.getElementById("mobileFilterContainer");
   if (filter === "trash") {
@@ -997,6 +987,8 @@ async function saveTask() {
     console.error("Gagal menyimpan:", err);
     showToast("Gagal menyimpan tugas: " + err.message);
   } finally {
+    renderTasks();
+    generateCalendar();
     btnSave.innerText = "Simpan";
     btnSave.disabled = false;
   }
