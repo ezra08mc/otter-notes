@@ -140,22 +140,39 @@ async function requestNotificationPermission() {
 }
 
 async function handleNotifToggle() {
+  if ("Notification" in window && Notification.permission === "granted") {
+    const nextValue = !notifActive;
+    await setNotificationPreference(nextValue);
+
+    if (nextValue) {
+      const title = "Otter Notes";
+      const options = {
+        body: "Notifikasi perangkat berhasil diaktifkan!",
+        icon: "otter-logo.png",
+      };
+
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.ready.then((reg) =>
+          reg.showNotification(title, options),
+        );
+      } else {
+        new Notification(title, options);
+      }
+    }
+    return;
+  }
   const isGranted = await requestNotificationPermission();
 
   if (!isGranted) {
-    showToast("Mohon aktifkan izin notifikasi di pengaturan browser Anda.");
+    showToast(
+      "Mohon aktifkan izin notifikasi di pengaturan browser Anda.",
+      "error",
+    );
     return;
   }
 
   const nextValue = !notifActive;
   await setNotificationPreference(nextValue);
-
-  if (nextValue) {
-    new Notification("Otter Notes", {
-      body: "Notifikasi perangkat berhasil diaktifkan!",
-      icon: "otter-logo.png",
-    });
-  }
 }
 
 function getDisplayName(user) {
@@ -716,7 +733,10 @@ function setupEventListeners() {
   });
 
   if (btnToggleNotif) {
-    btnToggleNotif.addEventListener("click", handleNotifToggle);
+    btnToggleNotif.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleNotifToggle();
+    });
   }
 
   document.getElementById("btnSaveTask")?.addEventListener("click", saveTask);
@@ -732,7 +752,11 @@ function setupEventListeners() {
     ?.addEventListener("click", handleAuthSubmit);
   document
     .getElementById("btnSubmitNewPassword")
-    ?.addEventListener("click", handleChangePassword);
+    ?.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleChangePassword();
+    });
+
   document
     .getElementById("btnDeleteAccount")
     ?.addEventListener("click", handleDeleteAccount);
@@ -1378,42 +1402,53 @@ function writeNotifiedKeys(keys) {
 
 function checkAndSendLocalNotifications() {
   if (!notifActive) return;
-  if (!("Notification" in window) || Notification.permission !== "granted")
+  if (!("Notification" in window)) return;
+
+  if (Notification.permission !== "granted") {
     return;
+  }
 
   const timezone = currentProfile?.timezone || getBrowserTimezone();
   const now = new Date();
-  const nowLocalDate = getLocalDateTimeFromDueAt(
-    now.toISOString(),
-    timezone,
-  ).date;
-  const nowLocalTime = getLocalDateTimeFromDueAt(
-    now.toISOString(),
-    timezone,
-  ).time;
+  const local = getLocalDateTimeFromDueAt(now.toISOString(), timezone);
+  const nowLocalDate = local.date;
+  const nowLocalTime = local.time;
 
   const notified = new Set(readNotifiedKeys());
   let changed = false;
 
   for (const task of tasks) {
     if (task.completed || task.deleted) continue;
+
     const taskDate = getTaskComparableDate(task);
     const taskTime = task.time ? String(task.time).slice(0, 5) : null;
+
     if (!taskDate || !taskTime) continue;
-    if (taskDate !== nowLocalDate) continue;
-    if (taskTime !== nowLocalTime) continue;
 
-    const key = getTaskNotifyKey(task);
-    if (notified.has(key)) continue;
+    if (taskDate === nowLocalDate && taskTime === nowLocalTime) {
+      const key = getTaskNotifyKey(task);
+      if (notified.has(key)) continue;
 
-    new Notification("Otter Notes Reminder", {
-      body: `${task.title}${task.description ? ` - ${task.description}` : ""}`,
-      tag: key,
-      icon: "otter-logo.png",
-    });
+      const title = "Otter Notes Reminder";
+      const options = {
+        body: `${task.title}${task.description ? ` - ${task.description}` : ""}`,
+        tag: key,
+        icon: "otter-logo.png",
+        badge: "otter-logo.png",
+        vibrate: [200, 100, 200],
+      };
 
-    notified.add(key);
-    changed = true;
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.ready.then((reg) => {
+          reg.showNotification(title, options);
+        });
+      } else {
+        new Notification(title, options);
+      }
+
+      notified.add(key);
+      changed = true;
+    }
   }
 
   if (changed) writeNotifiedKeys(Array.from(notified));
