@@ -41,6 +41,10 @@ async function init() {
   updateNotifUI();
   await checkUser();
 
+  if ("Notification" in window && Notification.permission === "default") {
+    requestNotificationPermission();
+  }
+
   supabaseClient?.auth.onAuthStateChange(async (_event, session) => {
     currentUser = session?.user ?? null;
     if (currentUser) {
@@ -72,7 +76,6 @@ const installContainer = document.getElementById("installContainer");
 const btnInstallApp = document.getElementById("btnInstallApp");
 
 window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
   deferredPrompt = e;
   if (installContainer) {
     installContainer.style.display = "block";
@@ -1149,7 +1152,6 @@ async function resetAll() {
 
   if (currentUser && supabaseClient && isPremiumUser()) {
     try {
-      // Pastikan sesi masih valid sebelum menghapus
       const {
         data: { session },
       } = await supabaseClient.auth.getSession();
