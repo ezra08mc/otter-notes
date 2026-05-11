@@ -2,8 +2,8 @@
   <img src="https://github.com/ezra08mc/otter-notes/blob/main/otter-logo.png?raw=true" alt="Otter Notes Logo" width="100">
   
   <h1>Otter Notes</h1>
-  <h3><b>Smart & Cloud-Synced Task Management</b></h3>  
-  <p>A powerful, installable (PWA), and seamless web-based task assistant with Telegram integration.</p>
+  <h3><b>Your Smart & Proactive Task Reminder</b></h3>  
+  <p>A sleek, installable (PWA) web assistant designed to ensure you never miss a deadline again.</p>
   
   [![Website Otter Notes](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://ezra08mc.github.io/otter-notes/)
   [![Status](https://img.shields.io/badge/Status-Active-success.svg?style=flat)]()
@@ -12,42 +12,47 @@
 </div>
 
 ## 🚀 Overview
-[🔗 Visit Website](https://ezra08mc.github.io/otter-notes/)  
+[🔗 Open Otter Notes](https://ezra08mc.github.io/otter-notes/)  
   
-**Otter Notes** has evolved from a simple local task list into a comprehensive time management solution. Featuring **Cloud Synchronization**, an installable **PWA** experience, and a **Telegram Bot Assistant**, Otter Notes ensures you never miss a deadline again, whether you are on your browser or chatting on Telegram.
+**Otter Notes** is a modern task management application built to simplify your productivity. With a focus on **Proactive Reminders**, it helps you stay ahead of your schedule through a multi-stage notification system. Whether you are using it as a browser tool or a standalone installed app, Otter Notes keeps your focus where it matters most.
 
 <img src="./preview-web.png" width="100%">
 
-### 🎯 Project Goals
-1. **Accessible Anywhere:** Seamless synchronization across all your devices via the cloud.
-2. **Proactive Reminders:** Reducing late submissions through dual-channel notifications (Browser Push & Telegram).
-3. **Intuitive & Modern:** Providing a sleek UI with zero learning curve, now powered by a highly comfortable Modern Slate Dark Mode.
+### 🎯 Key Objectives
+1. **Never Forget Again:** Advanced multi-stage reminders at H-7, H-3, H-1, and exact time.
+2. **Instant Access:** Install it as a PWA on your mobile or desktop for a lightning-fast experience.
+3. **Optimized for Comfort:** A beautiful, eye-friendly "Slate Grey" dark mode for any time of day.
 
-## ✨ Key Features
+## ✨ Core Features
 
-- ☁️ **Cloud Sync & Account** — Secure login and real-time database syncing.
-- 🤖 **Telegram Assistant** — Connect your ID to receive automated remote reminders and check upcoming tasks using the `/check` command directly in Telegram.
-- 📱 **PWA Ready** — Install Otter Notes directly to your home screen (Mobile/Desktop) for a native app-like experience.
-- 🗓️ **Interactive Calendar & Filters** — Easily view tasks by "Today", "Upcoming", "Overdue", or visualize them on the full Monthly Calendar.
-- 🔔 **Dual Smart Notifications** — Accurate reminders delivered through local browser push notifications and serverless Telegram messages.
-- 🌓 **Modern Dark Mode** — An elegant, aesthetic "Slate" dark theme for late-night productivity.
-- 🗑️ **Safe Management** — Complete tasks instantly, or move them to the Trash bin where they can be restored or permanently deleted.
+- 🔔 **Multi-Stage Task Reminder** — Receive smart local notifications at crucial milestones: 7 days before, 3 days before, 1 day before, and the exact moment your task is due.
+- 📱 **PWA Ready (Installable)** — Add to your Home Screen for a native app experience with offline support.
+- 🗓️ **Interactive Calendar** — A clean, Google Calendar-style interface to visualize your month at a glance.
+- 🔍 **Smart Filters** — Quickly sort through "Today", "Upcoming", or "Overdue" tasks with a single tap.
+- 🌓 **Modern Slate Dark Mode** — A professionally tuned dark theme for maximum focus and minimum eye strain.
+- 🗑️ **Trash System** — Safely delete tasks with a recovery option, ensuring no accidental data loss.
 
-## 💡 Why Otter Notes?
+## 💎 Flexible Tiers
 
-| Advantage | Description |
-| :--- | :--- |
-| **Cross-Platform** | Access via browser, install as an app, or interact via Telegram Bot. |
-| **Cloud Powered** | Safe and secure data storage with backend integration. |
-| **Highly Automated** | Serverless Cron Jobs handle your background reminders accurately every minute. |
-| **Flexible Tiers** | 100% Free for local device usage, with an exclusive Premium tier for full Cloud & Bot capabilities. |
+Otter Notes offers two ways to stay productive:
 
-## 👥 Target Audience
+### **Free Tier (Local Power)**
+Ideal for personal use on a single device.
+- ✅ Full access to Task Management & Calendar.
+- ✅ **Local Task Reminders** via browser notifications.
+- ✅ **Offline Mode** (PWA) support.
+- ✅ Aesthetic Dark Mode & Customization.
+- ✅ All data stored securely in your local browser storage.
 
-- 🎓 **University Students** — Manage complex course assignments and organizations seamlessly.
-- 👨‍💻 **Professionals & Freelancers** — Keep track of project deadlines across multiple devices.
-- 👤 **General Users** — Anyone who needs a reliable, highly-integrated personal assistant.
+### **Premium Tier (Cloud & Global Sync)**
+For users who need their reminders everywhere.
+- ☁️ **Real-time Cloud Sync** — Access your tasks across all devices seamlessly.
+- 🤖 **Telegram Reminder Bot** — Receive your H-7 to H-0 reminders directly on Telegram.
+- 📊 **Remote Check** — Use the `/check` command in Telegram to see your upcoming schedule on the go.
+- 🔒 **Account Security** — Secure login with password recovery and data backup.
 
-## 🛠️ Development & Tech Stack
-Built with pure Web Technologies (Vanilla HTML, CSS, JavaScript) for maximum speed, backed by **Supabase** (PostgreSQL & Auth), **Cloudflare Workers** (Serverless Automation), and the **Telegram Bot API**.
+## 🛠️ Tech Stack
+Built with high-performance **Vanilla HTML, CSS, and JavaScript** for a zero-lag experience. Enhanced with **Supabase** for secure authentication and **Cloudflare Workers** to power automated remote reminders.
 
+---
+*Created with ❤️ for students, professionals, and organized individuals.*
