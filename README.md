@@ -1,5 +1,4 @@
 <div align="center">
-  <img src="./assets/img/logo.png" alt="Inspire Lite Logo" width="100" height="100" style="object-fit: contain;">
   
   <h1>INSPIRE Lite</h1>
   <h3><b>A Minimalist Campus Management Information System</b></h3>  
