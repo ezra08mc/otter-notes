@@ -1,58 +1,85 @@
 <div align="center">
-  <img src="https://github.com/ezra08mc/otter-notes/blob/main/otter-logo.png?raw=true" alt="Otter Notes Logo" width="100">
+  <img src="./assets/img/logo.png" alt="Inspire Lite Logo" width="100" height="100" style="object-fit: contain;">
   
-  <h1>Otter Notes</h1>
-  <h3><b>Your Smart & Proactive Task Reminder</b></h3>  
-  <p>A sleek, installable (PWA) web assistant designed to ensure you never miss a deadline again.</p>
+  <h1>INSPIRE Lite</h1>
+  <h3><b>A Minimalist Campus Management Information System</b></h3>  
+  <p>A native, modern academic web portal engineered for high performance and clean data routing.</p>
   
-  [![Website Otter Notes](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://ezra08mc.github.io/otter-notes/)
-  [![Status](https://img.shields.io/badge/Status-Active-success.svg?style=flat)]()
-  [![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20PWA%20%7C%20Telegram-blue.svg?style=flat)]()
+  [![Environment](https://img.shields.io/badge/Stack-Native%20PHP%20%7C%20MariaDB-blue.svg?style=flat)]()
   [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat)]()
 </div>
 
 ## 🚀 Overview
-[🔗 Open Otter Notes](https://ezra08mc.github.io/otter-notes/)  
-  
-**Otter Notes** is a modern task management application built to simplify your productivity. With a focus on **Proactive Reminders**, it helps you stay ahead of your schedule through a multi-stage notification system. Whether you are using it as a browser tool or a standalone installed app, Otter Notes keeps your focus where it matters most.
-
-<img src="./preview-web.png" width="100%">
-
-### 🎯 Key Objectives
-1. **Never Forget Again:** Advanced multi-stage reminders at H-7, H-3, H-1, and exact time.
-2. **Instant Access:** Install it as a PWA on your mobile or desktop for a lightning-fast experience.
-3. **Optimized for Comfort:** A beautiful, eye-friendly "Slate Grey" dark mode for any time of day.
-
-## ✨ Core Features
-
-- 🔔 **Multi-Stage Task Reminder** — Receive smart local notifications at crucial milestones: 7 days before, 3 days before, 1 day before, and the exact moment your task is due.
-- 📱 **PWA Ready (Installable)** — Add to your Home Screen for a native app experience with offline support.
-- 🗓️ **Interactive Calendar** — A clean, Google Calendar-style interface to visualize your month at a glance.
-- 🔍 **Smart Filters** — Quickly sort through "Today", "Upcoming", or "Overdue" tasks with a single tap.
-- 🌓 **Modern Slate Dark Mode** — A professionally tuned dark theme for maximum focus and minimum eye strain.
-- 🗑️ **Trash System** — Safely delete tasks with a recovery option, ensuring no accidental data loss.
-
-## 💎 Flexible Tiers
-
-Otter Notes offers two ways to stay productive:
-
-### **Free Tier (Local Power)**
-Ideal for personal use on a single device.
-- ✅ Full access to Task Management & Calendar.
-- ✅ **Local Task Reminders** via browser notifications.
-- ✅ **Offline Mode** (PWA) support.
-- ✅ Aesthetic Dark Mode & Customization.
-- ✅ All data stored securely in your local browser storage.
-
-### **Premium Tier (Cloud & Global Sync)**
-For users who need their reminders everywhere.
-- ☁️ **Real-time Cloud Sync** — Access your tasks across all devices seamlessly.
-- 🤖 **Telegram Reminder Bot** — Receive your H-7 to H-0 reminders directly on Telegram.
-- 📊 **Remote Check** — Use the `/check` command in Telegram to see your upcoming schedule on the go.
-- 🔒 **Account Security** — Secure login with password recovery and data backup.
-
-## 🛠️ Tech Stack
-Built with high-performance **Vanilla HTML, CSS, and JavaScript** for a zero-lag experience. Enhanced with **Supabase** for secure authentication and **Cloudflare Workers** to power automated remote reminders.
+**INSPIRE Lite** is a native web framework designed to deliver a better, vanilla alternative to existing university portals. Functioning as a centralized digital campus platform inspired by UNSRAT's academic infrastructure, it streamlines student authentication, profile directories, and semester course metrics with zero framework overhead.
 
 ---
-*Created with ❤️ for students, professionals, and organized individuals.*
+
+## 📂 Project Directory Structure
+
+```inspire-lite/
+├── assets/
+│   ├── css/
+│   │   └── style.css                 # Core CSS
+│   └── img/
+│       ├── background.png            # Blurred glassmorphism backdrop asset
+│       └── logo.png                  # Centered portal brand header img (300x100)
+├── config/
+│   ├── db.php                        # Production PDO database client instance
+│   └── db.example.php                # Local environment template configuration
+├── admin/
+│   └── dashboard.php                 # Administrative system controls, user provisioning, and portal configuration panel.
+├── staff/
+│   └── dashboard.php                 # Academic records management, student enrollment registry, and administrative operations.
+├── lecturer/
+│   └── dashboard.php                 # Instructor grade management, course syllabus assignment, and student evaluation panel.
+├── student/
+│   ├── profil/
+│   │   └── index.php                 # Student biodata & profile viewer
+│   ├── pusat-informasi/
+│   │   └── index.php                 # Campus info bulletin hub
+│   ├── perkuliahan/
+│   │   ├── jadwal.php                # Jadwal Kuliah (Course schedules)
+│   │   ├── krs.php                   # Kartu Rencana Studi (Course registration)
+│   │   ├── khs.php                   # Kartu Hasil Studi (Semester grades)
+│   │   ├── presensi.php              # Attendance verification tracker
+│   │   ├── tugas.php                 # Assignment sub-panel (Dynamic task rows)
+│   │   ├── bimbingan.php             # Academic counseling entry point
+│   │   ├── kartu-mahasiswa.php       # KTM (Digital Student ID card generator)
+│   │   └── transkrip.php             # Cumulative academic transcript viewer
+│   ├── kemahasiswaan/
+│   │   ├── beasiswa.php              # Scholarship application tracker
+│   │   ├── prestasi.php              # Student achievements log
+│   │   ├── kompetisi.php             # Academic & non-academic competitions
+│   │   ├── organisasi.php            # Campus student organizations portal
+│   │   ├── kkt.php                   # Kuliah Kerja Terpadu (KKT/KKN routing)
+│   │   ├── praktik-lapangan/
+│   │   │   ├── pembimbing.php        # Internship field supervisor assignment
+│   │   │   └── seminar.php           # Field internship presentation evaluation
+│   │   ├── skripsi-tesis/
+│   │   │   ├── proposal.php          # Thesis topic & proposal submission
+│   │   │   ├── pembimbingan.php      # Advisor consultation logs tracker
+│   │   │   ├── hasil.php             # Research results defense panel
+│   │   │   └── ujian-akhir.php       # Final thesis viva examination
+│   │   └── wisuda/
+│   │       ├── informasi.php         # Graduation requirements info hub
+│   │       ├── daftar.php            # Graduation registry application
+│   │       └── validasi.php          # Clearance validation checklists
+│   ├── perpustakaan/
+│   │   └── index.php                 # Digital library integration entry
+│   ├── fasilitas/
+│   │   ├── kalender.php              # Academic activities event calendar
+│   │   ├── email.php                 # Official student institutional mail access
+│   │   └── wifi.php                  # Campus Wi-Fi single sign-on access manager
+│   ├── administrasi/
+│   │   ├── billing.php               # Tuition fees payment registry
+│   │   └── cuti-pindah/
+│   │       ├── cuti.php              # Academic leave request processing
+│   │       ├── pindah-prodi.php      # Internal major transfer gateway
+│   │       └── pindah-keluar.php     # External university transfer processing
+│   └── dashboard.php                 # Budi's main panel (Hero banner & Quick Actions)
+├── .gitignore                        # Excludes editor logs, secrets, and Syncthing folders
+├── LICENSE                           # MIT Open Source permissions file
+├── index.php                         # Application routing gateway controller
+├── login.php                         # Glassmorphism login engine with input tracking icons
+└── logout.php                        # Session lifecycle cleanup management script
+```
